@@ -1,0 +1,61 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+<!--  <link rel="stylesheet" href="css/normalize.css">-->
+<!--  <link rel="stylesheet" href="css/main.css">-->
+
+  <meta name="theme-color" content="#fafafa">
+
+  <script src="https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"></script>
+</head>
+
+<body>
+<h2>
+  Locally run msprime in your browser. (Rough and ready proof of concept)
+</h2>
+<h3>
+  Edit the demes model and download the results.
+</h3>
+Number of samples:<input type="number" id="num_samples" value="1000" />
+<div style="display: flex"><textarea id="code" style="width:50%" rows="20">
+description: Single-population two-epoch demography.
+time_units: generations
+demes:
+- name: deme0
+  description: A deme that doubles in size 100 generations ago.
+  epochs:
+    - start_size: 1000
+      end_time: 100
+    - start_size: 2000
+      end_time: 0
+</textarea>
+  <div id="tsSummary">
+  </div>
+</div>
+<button disabled id="generate" onClick="generate()">Generate Tree Sequence</button>
+<br/>
+<button disabled id="save" onclick="saveFile()">Save Generated File</button>
+<br/>
+<div>Output:</div>
+<textarea id="output" style="width: 100%;" rows="10" disabled></textarea>
+<script src="js/vendor/modernizr-3.11.2.min.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/main.js"></script>
+</body>
+
+</html>
