@@ -16,8 +16,8 @@
   <link rel="apple-touch-icon" href="icon.png">
   <!-- Place favicon.ico in the root directory -->
 
-<!--  <link rel="stylesheet" href="css/normalize.css">-->
-<!--  <link rel="stylesheet" href="css/main.css">-->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
 
   <meta name="theme-color" content="#fafafa">
 
@@ -31,18 +31,31 @@
 <h3>
   Edit the demes model and download the results.
 </h3>
-Number of samples:<input type="number" id="num_samples" value="1000" />
+Samples specification:<input type="text" id="num_samples" value='{"X": 100000}' />
 <div style="display: flex"><textarea id="code" style="width:50%" rows="20">
-description: Single-population two-epoch demography.
+description:
+  Asymmetric migration between two extant demes.
 time_units: generations
+defaults:
+  epoch:
+    start_size: 5000
 demes:
-- name: deme0
-  description: A deme that doubles in size 100 generations ago.
-  epochs:
-    - start_size: 1000
-      end_time: 100
-    - start_size: 2000
-      end_time: 0
+  - name: X
+    epochs:
+      - end_time: 1000
+  - name: A
+    ancestors: [X]
+  - name: B
+    ancestors: [X]
+    epochs:
+      - start_size: 2000
+        end_time: 500
+      - start_size: 400
+        end_size: 10000
+migrations:
+  - source: A
+    dest: B
+    rate: 1e-4
 </textarea>
   <div id="tsSummary">
   </div>

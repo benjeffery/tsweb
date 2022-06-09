@@ -46,6 +46,7 @@ let pyodideReadyPromise = main();
 
 async function generate() {
   let pyodide = await pyodideReadyPromise;
+  var start = new Date().getTime();
   try {
     let html_out = pyodide.runPython(`
     import msprime
@@ -53,11 +54,13 @@ async function generate() {
     from js import document
     graph = demes.loads(document.getElementById("code").value)
     demography = msprime.Demography.from_demes(graph)
-    num_samples = int(document.getElementById("num_samples").value)
-    ts = msprime.sim_ancestry(samples=num_samples, demography=demography, random_seed=12)
+    samples = eval(document.getElementById("num_samples").value)
+    ts = msprime.sim_ancestry(samples=samples, demography=demography, random_seed=12)
     ts.dump("msprime.trees")
     ts._repr_html_()
     `)
+    var time = (new Date().getTime()) - start;
+    output.value += "msprime completed in "+ time +"ms \n";
     tsSummary.innerHTML = html_out;
     saveButton.disabled = false;
   } catch (err) {
